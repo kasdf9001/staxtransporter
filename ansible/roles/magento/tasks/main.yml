@@ -17,5 +17,5 @@
     chdir: "{{magento_path}}/"
 #  when: not mgdl.stat.exists
 
-- name: Change owner
-  file: path={{magento_path}}/ owner="{{user}}" group="{{user}}" recurse=yes
+#- name: Change owner
+#  file: path={{magento_path}}/ owner="{{user}}" group="{{user}}" recurse=yes

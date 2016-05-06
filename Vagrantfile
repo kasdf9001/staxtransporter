@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
     server.vm.network :forwarded_port, guest: 80, host:8080
     server.vm.network :forwarded_port, guest: 443, host:8443
     server.vm.network :forwarded_port, guest: 22, host: 12400, id: 'ssh'
-    server.vm.synced_folder "./site", "/srv/development"
+    server.vm.synced_folder "./site", "/srv/development", type: "nfs"
     server.vm.network "private_network", type: "dhcp"
     server.vm.hostname = "magento"
 
@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
     server.vm.network :forwarded_port, guest: 80, host:8080
     server.vm.network :forwarded_port, guest: 443, host:8443
     server.vm.network :forwarded_port, guest: 22, host: 12400, id: 'ssh'
-    server.vm.synced_folder "./site", "/srv/development"
+    server.vm.synced_folder "./site", "/srv/development", type: "nfs"
     server.vm.network "private_network", type: "dhcp"
     server.vm.hostname = "wordpress"
 

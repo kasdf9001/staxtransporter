@@ -34,5 +34,5 @@
   register: install_status
   changed_when: install_status.stdout != "WordPress is already installed."
 
-- name: Change owner to wordpress
-  file: path={{wp_path}}/ owner="{{user}}" group="{{user}}" recurse=yes
+#- name: Change owner to wordpress
+#  file: path={{wp_path}}/ owner="{{user}}" group="{{user}}" recurse=yes

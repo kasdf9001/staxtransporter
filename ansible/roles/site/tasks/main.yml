@@ -1,5 +1,5 @@
-- name: Create site directory
-  file: path=/srv/{{site_name}} owner={{ user }} group={{ user }} mode=0755 state=directory
+#- name: Create site directory
+#  file: path=/srv/{{site_name}} owner={{ user }} group={{ user }} mode=0755 state=directory
 
 - name: Create meta.txt
   template: src=meta.txt dest=/srv/{{site_name}}_meta.txt
