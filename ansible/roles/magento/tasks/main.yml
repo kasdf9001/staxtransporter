@@ -1,0 +1,21 @@
+#- stat: path={{magento_path}}/wp-settings.php
+#  register: mgdl
+
+
+- name: Install Magento
+  command: magerun install
+           --dbHost="localhost"
+           --dbUser="{{site.mysql.user}}"
+           --dbPass="{{site.mysql.password}}"
+           --dbName="{{ stackid }}_{{site_name}}"
+           --installSampleData=no
+           --useDefaultConfigParams=yes
+           --magentoVersionByName="magento-mirror-1.9.2.4"
+           --installationFolder="{{magento_path}}"
+           --baseUrl="{{magento_url}}"
+  args:
+    chdir: "{{magento_path}}/"
+#  when: not mgdl.stat.exists
+
+- name: Change owner
+  file: path={{magento_path}}/ owner="{{user}}" group="{{user}}" recurse=yes

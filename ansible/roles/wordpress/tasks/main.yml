@@ -1,0 +1,38 @@
+- stat: path={{wp_path}}/wp-settings.php
+  register: wpdl
+
+- name: Download WP
+  command: wp core download
+           --allow-root
+  args:
+    chdir: "{{wp_path}}/"
+  when: not wpdl.stat.exists
+
+- stat: path={{wp_path}}/wp-config.php
+  register: wpinst
+
+- name: Config WP
+  command: wp core config
+           --allow-root
+           --dbname="{{ stackid }}_{{site_name}}"
+           --dbuser="{{site.mysql.user}}"
+           --dbpass="{{site.mysql.password}}"
+  args:
+    chdir: "{{wp_path}}/"
+  when: not wpinst.stat.exists
+
+- name: Install WP
+  command: wp core install
+           --allow-root
+           --url="{{ wordpress_url }}"
+           --title="{{ wordpress_title }}"
+           --admin_user="{{ wordpress_admin_user }}"
+           --admin_password="{{ wordpress_admin_password }}"
+           --admin_email="{{ wordpress_admin_email }}"
+  args:
+    chdir: "{{wp_path}}/"
+  register: install_status
+  changed_when: install_status.stdout != "WordPress is already installed."
+
+- name: Change owner to wordpress
+  file: path={{wp_path}}/ owner="{{user}}" group="{{user}}" recurse=yes

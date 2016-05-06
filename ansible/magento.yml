@@ -1,0 +1,29 @@
+---
+- hosts: magento
+
+  vars:
+    stackid: magento
+    vagrant: true
+  become: yes
+
+  roles:
+    - role: common
+    - role: ssmtp
+    - role: mariadb
+      tags: [ 'mariadb' ]
+    - role: nginx
+      tags: [ 'nginx' ]
+    - role: php7
+      tags: [ 'php' ]
+    - role: redis
+      tags: [ 'redis' ]
+    - role: base
+      tags: [ 'base' ]
+    - role: site
+      site_name: 'development'
+      site: '{{ site_defaults | combine(development.site, recursive=True) }}'
+    - role: magerun
+    - role: magento
+      site_name: 'development'
+      site: '{{ site_defaults | combine(development.site, recursive=True) }}'
+      tags: [ 'magento' ]

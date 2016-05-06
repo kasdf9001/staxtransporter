@@ -1,0 +1,13 @@
+/srv/logs/*.log {
+	daily
+	missingok
+	rotate 24
+	compress
+	delaycompress
+	notifempty
+	create 0640 www-data {{ stackid }}
+	sharedscripts
+	postrotate
+		invoke-rc.d nginx rotate >/dev/null 2>&1
+	endscript
+}

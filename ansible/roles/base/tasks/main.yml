@@ -1,0 +1,47 @@
+- name: Copy php-fpm wordpress configuration
+  template: src=fpmpool.conf.j2 dest=/etc/php/7.0/fpm/pool.d/site.conf
+  notify: Restart PHP-FPM
+
+- name: Copy php.ini configuration
+  template: src=php.ini dest=/etc/php/7.0/fpm/php.ini
+  notify: Restart PHP-FPM
+
+- name: Copy php.ini configuration to CLI
+  template: src=php.ini dest=/etc/php/7.0/cli/php.ini
+
+- name: Add group {{ user }}
+  group: name={{ user }}
+  when: vagrant == false
+
+- name: Add user {{ user }}
+  user: name={{ user }} group={{ user }} home=/srv shell=/bin/bash password={{base_user_password |password_hash('sha512')}} state=present
+  when: vagrant == false
+
+- name: Create directory for rsa keys
+  file: path=/srv/.ssh owner={{ user }} group={{ user }} state=directory
+
+#- name: Save user rsa public key if there is one
+#  lineinfile: dest=/srv/.ssh/authorized_keys state=present create=yes line="{{ item }}"
+#  with_items: "{{ base_user_rsa_public_key }}"
+
+- name: Save user rsa public key if there is one
+  authorized_key: user={{ user }} key="{{ base_user_rsa_public_key }}" exclusive=true
+  when: vagrant == false
+
+
+- name: Allow password authentication
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication .+" line="PasswordAuthentication yes"
+  when: base_allow_password_login
+  notify: Reload SSHD
+
+- name: Create host directory for chroot
+  file: path=/srv owner={{ user }} group={{ user }} mode=0755 state=directory
+
+- name: Create logs directory
+  file: path=/srv/logs owner=root group={{ user }} mode=0755 state=directory
+
+- name: Copy /srv/logs logrotate configuration
+  template: src=logrotate dest=/etc/logrotate.d/{{ stackid }}
+
+- name: Create directory for ssl
+  file: path=/etc/nginx/ssl owner=root group={{ user }} mode=0755 state=directory

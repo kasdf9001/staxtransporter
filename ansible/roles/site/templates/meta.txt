@@ -1,0 +1,23 @@
+MYSQL
+server: localhost
+database: {{ stackid }}_{{site_name}}
+user: {{ site.mysql.user }}
+password: {{site.mysql.password}}
+
+HOSTNAMES
+{% for server_name in site.server_names %}
+  https://{{ server_name }}
+{% endfor %}
+
+{% if site.basic_auth.enabled %}
+BASIC_AUTH
+username: {{ site.basic_auth.user }}
+password: {{ site.basic_auth.password }}
+{% endif %}
+
+{% if integrations_sftp.enabled %}
+INTEGRATIONS SFTP
+path: /srv/integrations
+username: {{integrations_sftp.user}}
+password: {{ integrations_sftp.password }}
+{% endif %}

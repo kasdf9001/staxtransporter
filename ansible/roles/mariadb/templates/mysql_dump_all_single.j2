@@ -1,0 +1,24 @@
+#!/bin/sh
+today=$(date +%m%d%Y)
+
+log=/var/backups/mysql/mysql_$today.log
+#dest=/var/backups/mysql/database/$today
+dest=/var/backups/mysql/current
+db_user=root
+db_pass={{ mysql_root_password }}
+db_list=`mysql -u $db_user -p$db_pass -e'show databases;'`    #get list of all databases on server
+db_list=${db_list##Database}                       #remove headers from list of databases
+
+rm -rf $dest
+mkdir -p $dest
+
+#loop through and use mysqldump to dump each database to a file
+for db in $db_list;
+do
+  #ei dumpata information_schema talua
+  if [ "$db" != "information_schema" ] && [ "$db" != "performance_schema" ]
+  then
+     filename=$dest/$db.sql
+     nice -n 15 mysqldump --events --databases --hex-blob -u $db_user -p$db_pass $db |gzip -c > $filename.gz
+  fi
+done

@@ -1,0 +1,48 @@
+
+
+location = /favicon.ico {
+    log_not_found off;
+}
+
+location = /robots.txt {
+    allow all;
+    log_not_found off;
+}
+
+location ~* /(?:uploads|files)/.*\.php$ {
+     deny all;
+}
+
+location / {
+        try_files $uri $uri/ /index.php?$args;
+}
+
+location ~ \.php$ {
+        try_files $uri =404;
+        include fastcgi.conf;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        fastcgi_pass unix:/var/run/php-fpm-site.sock;
+        client_max_body_size 0;
+}
+
+location ~* ^.+\.(js|css|ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$ {
+        expires max;
+}
+
+#for let's encrypt validation
+location ~ /\.well-known {
+  allow all;
+  auth_basic          off;
+}
+
+# Deny all attempts to access hidden files
+# such as .htaccess, .htpasswd, etc...
+location ~ /\. {
+  deny all;
+  access_log off;
+  log_not_found off;
+}
+
+
+client_max_body_size 32m;

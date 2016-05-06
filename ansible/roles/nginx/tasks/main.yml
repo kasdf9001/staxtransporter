@@ -1,0 +1,40 @@
+# NGINX
+- name: Set dotdeb.org gpg
+  apt_key: id=89DF5277 url=http://www.dotdeb.org/dotdeb.gpg state=present
+  when: ansible_distribution_release == 'wheezy'
+
+- name: Add dotdeb repository
+  apt_repository: repo='deb http://packages.dotdeb.org wheezy all'
+  when: ansible_distribution_release == 'wheezy'
+
+- name: Install nginx
+  apt: pkg=nginx state=present default_release=jessie-backports
+
+- name: Remove default site
+  file: dest=/etc/nginx/sites-enabled/default state=absent
+  notify: Reload Nginx
+
+- name: Copy nginx.conf
+  template: src=nginx.conf dest=/etc/nginx/nginx.conf
+  notify: Reload Nginx
+
+- name: Copy fastcgi-php.conf
+  template: src=fastcgi-php.conf dest=/etc/nginx/snippets/fastcgi-php.conf
+  notify: Reload Nginx
+
+- name: Create default directory
+  file: dest=/var/www owner=www-data group=www-data state=directory
+
+- name: Copy nginx default config
+  template: src=sites_default.conf dest=/etc/nginx/sites-enabled/20-default
+  notify: Reload Nginx
+
+- name: Copy nginx localhost config
+  template: src=sites_localhost.conf dest=/etc/nginx/sites-enabled/10-localhost
+  notify: Reload Nginx
+  when: vagrant == false
+
+- name: Copy index.html
+  template: src=index.html dest=/var/www/index.html mode=0644
+
+- meta: flush_handlers

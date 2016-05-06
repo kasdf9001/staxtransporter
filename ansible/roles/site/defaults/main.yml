@@ -1,0 +1,71 @@
+---
+site_defaults:
+  name: site
+  mysql:
+    user: "{{stackid}}"
+    password: vagrant1234
+  server_names: "['{{site_name}}.localhost']"
+  perm_server_name: "{{ inventory_hostname }}"
+  https_only: false
+  basic_auth:
+    enabled: false
+    #user: ''
+    #password: ''
+  letsencrypt_ssl:
+    enabled: false
+  https_hsts_max_age: 600
+  ssl:
+    crt: |
+      -----BEGIN CERTIFICATE-----
+      MIICuDCCAaCgAwIBAgIJANOv6BfHpxo8MA0GCSqGSIb3DQEBCwUAMBQxEjAQBgNV
+      BAMMCXRlc3RpdmV0bzAeFw0xNTA2MTIwOTQ3NDJaFw0yNTA2MDkwOTQ3NDJaMBQx
+      EjAQBgNVBAMMCXRlc3RpdmV0bzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC
+      ggEBANSksKzqxot9oPpbndqPl8I2YGNC1xAujyDsr3aZDqH51R0PzlGVQ+RInIzR
+      8s43QRI8lttmflFLnmmwOEZUm/emYpgLGQfaDN8DL0SVC0l5e2NVtotmX7aQk4F1
+      f4z4lI965hYC2/vzh0LTLyzYeuXiV/OFg3rpodD7msMgq13E/uZHE76cq0dLbwzS
+      Bk5emL0NyU0g6FCBPba/ywXIVul8XRCtJpcnpxwD0AlzkmCXHckJp3V1JisCkR+S
+      nr+25J9LyCllIEWNZBNfy8DaMgx3RC/vSKbS96vgPR/Yz4W6mC8L880qWdfiWYhg
+      vxBL2ub5u2om6ERaKSHoWlzGrT0CAwEAAaMNMAswCQYDVR0TBAIwADANBgkqhkiG
+      9w0BAQsFAAOCAQEABri9hiQ6350lQsXs2Ywt2RzE56gufliaxtgonjuJqZC4zcS9
+      lfsyK0/seyOgoHkruhXfkURrj/CJisg5NhOiA4Zfnx6ArO5ZicSb/lzeuA9+LSYb
+      WKrNxhqZbiSSNDKLfq3ZCcuE2w1Cf5j0FJTu5BeKVl6+7wwMDP00EBMeeyteTMJO
+      IXg/VAoJGhGnxMkHKcQhTYRqtX9bmDahlVYF8AlDFyLHx3W/xM4Wv4mspDFc9kNL
+      /hpnRt7SX6ilUaZGBbff5UwjhrBGHTrXMVKxA9aqOaIfDId6XxaapmS3RSHmdxtk
+      +DqWGljVycjtBEM+ifvAvnDUfi5yk2uJF5BAGw==
+      -----END CERTIFICATE-----
+    key: |
+      -----BEGIN PRIVATE KEY-----
+      MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDUpLCs6saLfaD6
+      W53aj5fCNmBjQtcQLo8g7K92mQ6h+dUdD85RlUPkSJyM0fLON0ESPJbbZn5RS55p
+      sDhGVJv3pmKYCxkH2gzfAy9ElQtJeXtjVbaLZl+2kJOBdX+M+JSPeuYWAtv784dC
+      0y8s2Hrl4lfzhYN66aHQ+5rDIKtdxP7mRxO+nKtHS28M0gZOXpi9DclNIOhQgT22
+      v8sFyFbpfF0QrSaXJ6ccA9AJc5Jglx3JCad1dSYrApEfkp6/tuSfS8gpZSBFjWQT
+      X8vA2jIMd0Qv70im0ver4D0f2M+FupgvC/PNKlnX4lmIYL8QS9rm+btqJuhEWikh
+      6Fpcxq09AgMBAAECggEAaOiblaP6smUXn4zFs0e2moWTRkV6rywZRygeZQecNYN5
+      he3/XzaiGSVNvxfxj5WpD+M+lh3Z4ifJjuD20pP5otO+vr5y6fHE+d2rW02hFO3P
+      VzG5bsriG8L2Ux9x/03AlY0PqPpeJ859BBYGpzxiXboupCFRvbk4MU+AihY7FXYt
+      O3OMxJ4CnzI6B5WXY2hVPrF2Lq/PANrUy2KCtqKrGlMZ+eCwpUluUp+GaYpJKZn9
+      Ev6jJa6n2wOrYHtsgmBDHMDei628Tp5t6xijGAVBtrD+Yy0ykAPHIIXKaMsGu5jE
+      rwgD6yxBkd3JJa8+r5o2N0GyQC6j3C40921uRovAYQKBgQD9kJZW02K9M0B23R1F
+      8iCAuaj9GRIy9HCH+aheXsbIWqikw5bnfs2FNg8NrbXI8FVabHapbk9VgxA4npng
+      Ci85NtM1a5qS5ceg6uYn4C41SRIqT6MsvMZsI4SB/xbH/am1pXX9JCGi54ih21Ny
+      SiTr0fxLFSljkFvKmt0A20OBpQKBgQDWr35dSeYcwD580NEIh4GuZmvsrBqyucmM
+      mt6DCs3ztJWgrt00MVjskp/dyNETlnlW4fLVdKBDt6KcwJtng5p0RQ5A0kusNdvZ
+      JCHE331EhVzfwnOCVbGwe1ObqKT1sC41omLZDATCAbgIK6rPUhzI9HsifK6ggts+
+      3i6wMit5uQKBgQCFDVqmAtPb/cnE1W/n5Q6DHWj8LiyrijKGV02u/0KFnXTCyFMl
+      9Ba54MzzW4R5BQt0oFd/vn9ompZnb2nE8vMmrYsUi/sXO/WNjdTpdawpj8c1ZoZ0
+      EjZ4RgbhA86bcJKd203XYB86UQ4UCHd4EEnhaFVfvKH0OarA3JQ9P9DjdQKBgQC0
+      xXER/HfXHcmAMBTTqcZ4o6Wc1A5nECm2S3GxxhdFbnnPo25/1E2cZppWlhH2/G2P
+      yxI+ysVoP+idNVGmCBq2bK9jxbASggdtAA+vRsCkQefCQmohBSdqA26TU54TgxZl
+      8yZovMYE1o2v05UwnWO/kp1cnMAuSAF1HoERvCz/gQKBgEt5LvRXqja9Wpg0tqOj
+      orsHEqwy5Q3uGhklRlv0WU8sZ7eGfWbxvDbGhy+9uiMwKEZq6TvQEDKUxoOJWjWl
+      g3r9ByVzxHPkOnFhh16sNkTiWnlLc0nurwdkAv23CNgAdZxBWqiuIP/IbBrQM8yL
+      7RXmYtoQezmlQaIWUJPG8Sj1
+      -----END PRIVATE KEY-----
+
+site: '{{site_defaults}}'
+integrations_sftp:
+  enabled: false
+  #user: ''
+  #password: ''
+user: "{{ stackid }}"

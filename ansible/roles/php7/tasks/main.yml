@@ -1,0 +1,35 @@
+# APT SOURCES for wheezy
+
+- name: Set dotdeb.org gpg
+  apt_key: id=89DF5277 url=http://www.dotdeb.org/dotdeb.gpg state=present
+
+- name: Add dotdeb repository
+  apt_repository: repo='deb http://packages.dotdeb.org jessie all'
+
+- name: install php-fpm + modules
+  apt: pkg={{ item }} state=present
+  with_items:
+    - php7.0-common
+    - php-mysql
+    #- php7-xmlrpc
+    #- php7-imagick
+    - php-curl
+    - php-gd
+    - php7.0-cli
+    - php7.0-fpm
+    - php7.0-redis
+    - memcached
+    - php-imap
+    - php-opcache
+    - php-mcrypt
+  notify: Restart PHP-FPM
+
+- name: Disable default pool
+  command: mv /etc/php/7.0/fpm/pool.d/www.conf /etc/php/7.0/fpm/pool.d/www.disabled creates=/etc/php/7.0/fpm/pool.d/www.disabled
+  notify: Restart PHP-FPM
+
+- name: Copy php-fpm default configuration
+  template: src=default_pool.conf dest=/etc/php/7.0/fpm/pool.d/default.conf
+  notify: Restart PHP-FPM
+
+- meta: flush_handlers

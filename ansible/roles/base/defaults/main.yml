@@ -1,0 +1,12 @@
+---
+base_allow_password_login: false
+base_php_fpm_max_children: 50
+base_php_ini_max_execution_time: 120
+base_php_ini_memory_limit: 512M
+base_php_ini_upload_max_filesize: 128M
+base_php_ini_session_gc_probability: 0
+base_user_rsa_public_key: ''
+ip_whitelist: []
+opcache:
+  enabled: 0
+user: "{{stackid}}"

@@ -1,0 +1,26 @@
+server {
+        listen       443;
+        server_name  {{ server_name }};
+	      access_log   /var/log/nginx/wordpress.access.log;
+	      error_log    /var/log/nginx/wordpress.error.log;
+
+        ssl                  on;
+        ssl_certificate /etc/nginx/site.crt;
+        ssl_certificate_key /etc/nginx/site.key;
+
+        root {{ system_folder }}/site ;
+        index index.php;
+
+        location / {
+                try_files $uri $uri/ /index.php?$args;
+        }
+
+        location ~ \.php$ {
+                try_files $uri =404;
+                include fastcgi_params;
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+        }
+
+
+        client_max_body_size 32m;
+}

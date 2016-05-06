@@ -1,0 +1,53 @@
+---
+- name: Update APT cache
+  apt: update_cache=yes cache_valid_time=3600
+  ignore_errors: True
+
+- name: add Jessie backports repository
+  apt_repository: repo='deb http://http.debian.net/debian jessie-backports main contrib non-free' state=present update_cache=yes
+#  when: upcloud or ansible_ssh_user == "vagrant"
+
+- name: Install general packages
+  apt: pkg={{ item }}
+  with_items:
+    - vim
+    - bash-completion
+    - python-pycurl
+    - most
+    - host
+    - whois
+    - python-apt
+    - git
+    - iftop
+    - iotop
+    - telnet
+
+- name: Copy Vim config vimrc
+  copy: src=vimrc dest=/etc/vim/vimrc
+
+- name: Copy root user .bashrc
+  template: src=root_bashrc dest=/root/.bashrc
+
+#- name: Copy user .bashaliases
+#  copy: src=user_bash_aliases dest=/home/saminiemi/.bash_aliases
+#  sudo: no
+#  when: ansible_ssh_user != "root"
+
+- name: Generate finnish locale
+  locale_gen: name=fi_FI.UTF-8 state=present
+
+- name: Set LANG to finnish
+  lineinfile: dest=/etc/default/locale line='LANG="fi_FI.UTF-8"'
+
+- name: Set LC_MESSAGES to english
+  lineinfile: dest=/etc/default/locale line='LC_MESSAGES="en_US.UTF-8"'
+
+- name: Set timezone
+  lineinfile: dest=/etc/timezone line=Europe/Helsinki regexp="^.+"
+  notify: Reconfigure timezone
+
+- name: Port 15345
+  lineinfile: dest=/etc/ssh/sshd_config line="Port 15345"
+  notify: Reload SSHD
+
+- meta: flush_handlers

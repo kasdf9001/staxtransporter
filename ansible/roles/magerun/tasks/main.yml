@@ -1,0 +1,8 @@
+---
+- name: Install Magerun
+  get_url: url="{{ phar_url }}" dest="{{ bin_path }}" mode=0755
+
+- name: Copy the config file.
+  template:
+    src: config.yaml
+    dest: /etc/n98-magerun.yaml

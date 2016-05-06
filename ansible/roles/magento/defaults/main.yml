@@ -1,0 +1,3 @@
+---
+magento_url: "localhost:8080"
+magento_path: "/srv/{{site_name}}"

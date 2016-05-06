@@ -1,0 +1,35 @@
+- name: Create site directory
+  file: path=/srv/{{site_name}} owner={{ user }} group={{ user }} mode=0755 state=directory
+
+- name: Create meta.txt
+  template: src=meta.txt dest=/srv/{{site_name}}_meta.txt
+
+- name: Save certificate
+  template: src=default.crt dest=/etc/nginx/ssl/{{site_name}}_crt
+  notify: Reload Nginx
+
+- name: Save RSA key
+  template: src=default.key dest=/etc/nginx/ssl/{{site_name}}_key
+  notify: Reload Nginx
+
+- name: Copy nginx {{site_name}}_site config
+  template: src=nginx_site.conf.j2 dest=/etc/nginx/sites-enabled/100-{{site_name}}
+  notify: Reload Nginx
+
+- name: Install python-passlib if htpasswd needed
+  apt: pkg=python-passlib
+  when: site.basic_auth.enabled
+
+- name: Set htpasswd if needed
+  htpasswd: path=/etc/nginx/{{site_name}}_passwd name={{ site.basic_auth.user }} password={{ site.basic_auth.password }} owner=root group=www-data mode=0640
+  when: site.basic_auth.enabled
+
+- name: Copy nginx baseconfig.conf
+  template: src=nginx_baseconfig_{{ stackid }}.conf.j2 dest=/etc/nginx/baseconfig.conf
+  notify: Reload Nginx
+
+- name: Create database {{ stackid }}_{{site_name}}
+  mysql_db: name={{ stackid }}_{{site_name}} state=present
+
+- name: Create database user {{ stackid }}
+  mysql_user: name={{ site.mysql.user }} password={{ site.mysql.password }} priv={{ stackid }}_%.*:ALL host='localhost' state=present

@@ -1,0 +1,8 @@
+---
+site_perm_server_name: "localhost:8080"
+wordpress_url: "{{ site_perm_server_name }}"
+wordpress_title: "{{ wordpress_url }}"
+wordpress_admin_user: "siteadmin"
+wordpress_admin_password: "sitepass"
+wordpress_admin_email: "{{root_email}}"
+wp_path: "/srv/{{site_name}}"

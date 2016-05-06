@@ -1,0 +1,6 @@
+---
+- name: Install ssmtp package
+  apt: pkg=ssmtp
+
+- name: Copy ssmtp config
+  template: src=ssmtp.conf dest=/etc/ssmtp/ssmtp.conf

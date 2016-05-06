@@ -1,0 +1,9 @@
+- name: Generate locales
+  command: locale-gen
+
+- name: Reconfigure timezone
+  command: dpkg-reconfigure --frontend noninteractive tzdata
+  notify: Restart rsyslog
+
+- name: Restart rsyslog
+  service: name=rsyslog state=restarted

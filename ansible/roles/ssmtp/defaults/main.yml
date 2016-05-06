@@ -1,0 +1,4 @@
+---
+sendgrid_user_name: ""
+sendgrid_password: ""
+mail_hostname: "{{ inventory_hostname }}"
