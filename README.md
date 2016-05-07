@@ -9,3 +9,5 @@ OR
 vagrant up wordpress
 Go to http://localhost:8080
 ```
+
+Config your setting at ansible/group_vars/all.yml

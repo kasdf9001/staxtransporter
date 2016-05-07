@@ -1,4 +1,7 @@
 ---
-sendgrid_user_name: ""
-sendgrid_password: ""
+smtp:
+  host: ""
+  port: ""
+  username: ""
+  password: ""
 mail_hostname: "{{ inventory_hostname }}"

@@ -1,9 +1,12 @@
 ---
 root_email: email@example.com
-sendgrid_user_name: ""
-sendgrid_password: ""
 user: vagrant
 development:
   site:
     server_names:
     - localhost
+smtp:
+  host: "mailtrap.io"
+  port: "2525"
+  username: "username"
+  password: "password"
