@@ -1,5 +1,5 @@
 ---
-root_email: email@example.com
+root_email: EMAIL@EXAMPLE.COM
 user: vagrant
 development:
   site:
@@ -8,5 +8,5 @@ development:
 smtp:
   host: "mailtrap.io"
   port: "2525"
-  username: "username"
-  password: "password"
+  username: "USERNAME"
+  password: "PASSWORD"
