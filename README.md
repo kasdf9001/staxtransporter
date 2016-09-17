@@ -1,6 +1,46 @@
 Fork of pilvia stax designed for easy transport of files from staging to local vagrant
 ======================================================================================
 
+Functionality
+=============
+Data migration functionality for vagrant machines. The goal is easier initialization
+of local environment. Added benefit is that this can be run later on in demand to update
+local environment.
+
+* Initializes git in /srv/development/
+    * If already initialized, skip (or pull?, clean?)
+* Database migration
+    * Fetches database information from <path>/app/etc/local.xml or equivalent
+    * Dumps database over SSH to vagrant
+        * Dump only over SSH, do not litter in remote environment
+        * Import the dump in local
+        * Overwrite remote url with local url
+            * Use wp search-replace with Wordpress
+            * Use SQL to replace LIKE %base_url% with Magento
+        * Delete SQL dump file
+* Use rsync to get rest of files
+    * plugins, media uploads etc   
+
+User input requirement
+======================
+
+Only the following is required from the user:
+* git init url 
+* remote username
+* remote domain / IP
+* remote path
+* Magento or Wordpress
+
+examples:
+git@github.com:myname/prorepo.git
+sofokus
+megasite.sofokus.pilvia.io
+/srv/staging/
+magento
+
+Notes
+=====
+
 SSH key from the host needs to be forwarded to the guest, else the staging environment is not accessible. 
 
 <pre>
