@@ -23,7 +23,11 @@
       site_name: 'development'
       site: '{{ site_defaults | combine(development.site, recursive=True) }}'
     - role: magerun
-    - role: magento
-      site_name: 'development'
-      site: '{{ site_defaults | combine(development.site, recursive=True) }}'
-      tags: [ 'magento' ]
+# Installing magento halted for testing
+#    - role: magento
+#      site_name: 'development'
+#      site: '{{ site_defaults | combine(development.site, recursive=True) }}'
+#      tags: [ 'magento' ]
+    - role: rsync
+      remote: 'user@example.com'
+      path: '/srv/staging/'

@@ -1,0 +1,5 @@
+- name: Transfer files from remote path to vagrant with rsync
+  shell: echo "rsync {{ remote }}:{{ path }} /srv/development/"
+  register:  echooutput
+
+- debug: msg="{{ echooutput.stdout }}"
