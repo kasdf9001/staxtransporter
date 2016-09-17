@@ -1,4 +1,5 @@
 Vagrant.configure("2") do |config|
+  config.ssh.forward_agent = true
   config.vm.provider "virtualbox" do |v, override|
     override.vm.box_url = "https://github.com/pilvia/stax/releases/download/b1/stax_b1.box"
     override.vm.box = "stax_b1"
